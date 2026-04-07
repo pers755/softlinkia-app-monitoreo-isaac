@@ -9,14 +9,19 @@ class DashboardController extends Controller
 {
    public function index()
     {
-        $userId = auth()->id();
-        
-        $data = [
-            'x'=> 10, // Ejemplo de dato adicional
-            'totalDevices'  => Device::where('user_id', $userId)->count(),
-            'activeDevices' => Device::where('user_id', $userId)->where('status', 'activo')->count(),
-        ];
+      $user = auth()->user();
 
-        return view('dashboard', $data);
+    if ($user->isAdmin()) {
+        // Si eres admin, ves todo el panorama global
+        $totalDevices = \App\Models\Device::count();
+        $activeDevices = \App\Models\Device::where('status', 'activo')->count();
+    } else {
+        // Si es cliente, solo ve sus equipos a través de su relación
+        $client = $user->client;
+        $totalDevices = $client->devices()->count();
+        $activeDevices = $client->devices()->where('status', 'activo')->count();
+    }
+
+    return view('dashboard', compact('totalDevices', 'activeDevices'));
     }
 }

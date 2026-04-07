@@ -21,7 +21,8 @@ class DeviceController extends Controller
      */
     public function create()
     {
-      return view('devices.create');
+    $clients = \App\Models\Client::all(); //listado de clientes
+      return view('devices.create', compact('clients'));
     }
 
     /**
@@ -29,15 +30,15 @@ class DeviceController extends Controller
      */
   public function store(Request $request)
 {
-    var_dump($request->all()); // Debug: Verificar datos recibidos
-    $validated = $request->validate([
+  $validated = $request->validate([
         'name' => 'required|string|max:255',
         'type' => 'required|string',
         'location' => 'required|string',
+        'client_id' => 'required|exists:clients,id', // Validamos que el cliente exista
     ]);
 
-    // Creamos el dispositivo y le pegamos el ID del usuario actual
-    auth()->user()->devices()->create($validated);
+    // Guardamos usando la relación con el cliente o directamente
+    Device::create($validated);
 
     return redirect()->route('devices.index')->with('success', 'Equipo registrado.');
 }

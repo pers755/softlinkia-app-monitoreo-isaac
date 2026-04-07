@@ -39,4 +39,15 @@ class User extends Authenticatable
         // los registros que tengan el 'user_id' de este usuario.
         return $this->hasMany(Device::class);
     }
+
+    public function client()
+    {
+        // Un usuario puede tener un perfil de cliente
+        return $this->hasOne(Client::class);
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
 }
