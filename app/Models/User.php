@@ -29,4 +29,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Un usuario puede tener muchos dispositivos.
+     */
+    public function devices()
+    {
+        // Esto le dice a Laravel que busque en la tabla 'devices' 
+        // los registros que tengan el 'user_id' de este usuario.
+        return $this->hasMany(Device::class);
+    }
 }

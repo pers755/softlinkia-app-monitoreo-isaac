@@ -1,0 +1,1 @@
+<span class="font-bold text-2xl text-blue-600">Softlinkia<span class="text-gray-800">Monitor</span></span>.
