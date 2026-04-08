@@ -12,7 +12,7 @@ class DeviceController extends Controller
      */
    public function index()
     {
-        $devices = Device::with('user')->get();
+        $devices = Device::paginate(10); 
         return view('devices.index', compact('devices'));
     }
 

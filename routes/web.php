@@ -22,6 +22,16 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
    Route::resource('devices', DeviceController::class);
 
+   Route::post('/simulate-event', function (Illuminate\Http\Request $request) {
+    Event::create([
+        'device_id' => $request->device_id,
+        'type'      => $request->type,
+        'timestamp' => now(),
+    ]);
+
+    return back()->with('success', 'Evento procesado: Incidencia generada automáticamente.');
+})->name('simulate.event');
+
 });
 
 require __DIR__.'/auth.php';

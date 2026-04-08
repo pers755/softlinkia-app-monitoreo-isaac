@@ -11,39 +11,66 @@
                 
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-lg font-bold">Listado de Equipos</h3>
-                    <a href="{{ route('devices.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow">
+                    <a href="{{ route('devices.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow transition">
                         + Agregar Dispositivo
                     </a>
                 </div>
 
-                <table class="min-w-full border">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="p-3 text-left">Nombre</th>
-                            <th class="p-3 text-left">Tipo</th>
-                            <th class="p-3 text-left">Estado</th>
-                            <th class="p-3 text-left">Ubicación</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($devices as $device)
-                            <tr class="border-t">
-                                <td class="p-3">{{ $device->name }}</td>
-                                <td class="p-3">{{ $device->type }}</td>
-                                <td class="p-3">
-                                    <span class="px-2 py-1 rounded text-xs {{ $device->status == 'activo' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                        {{ strtoupper($device->status) }}
-                                    </span>
-                                </td>
-                                <td class="p-3">{{ $device->location }}</td>
-                            </tr>
-                        @empty
+                @if(session('success'))
+                    <div class="mb-4 p-4 bg-green-100 border-l-4 border-green-500 text-green-700">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                <div class="overflow-x-auto">
+                    <table class="min-w-full border border-gray-200">
+                        <thead class="bg-gray-50">
                             <tr>
-                                <td colspan="4" class="p-3 text-center text-gray-500">Aún no tienes dispositivos. ¡Crea el primero!</td>
+                                <th class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
+                                <th class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo</th>
+                                <th class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+                                <th class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ubicación</th>
+                                <th class="p-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Simulación</th>
                             </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            @forelse($devices as $device)
+                                <tr>
+                                    <td class="p-3 whitespace-nowrap">{{ $device->name }}</td>
+                                    <td class="p-3 whitespace-nowrap text-gray-600">{{ $device->type }}</td>
+                                    <td class="p-3 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                            {{ $device->status == 'activo' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800 border border-red-200' }}">
+                                            {{ strtoupper($device->status) }}
+                                        </span>
+                                    </td>
+                                    <td class="p-3 whitespace-nowrap text-sm text-gray-500">{{ $device->location }}</td>
+                                    <td class="p-3 whitespace-nowrap text-center">
+                                        <form action="{{ route('simulate.event') }}" method="POST" onsubmit="return confirm('¿Simular pérdida de conexión?')">
+                                            @csrf
+                                            <input type="hidden" name="device_id" value="{{ $device->id }}">
+                                            <input type="hidden" name="type" value="desconexion">
+                                            <button type="submit" class="inline-flex items-center px-3 py-1 bg-orange-500 hover:bg-orange-600 text-black text-xs font-bold rounded shadow-sm transition">
+                                                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                                </svg>
+                                                FALLA
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="p-8 text-center text-gray-500 italic">Aún no tienes dispositivos registrados.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mt-4">
+        {{ $devices->links() }} 
+                </div>
 
             </div>
         </div>
