@@ -38,8 +38,24 @@ class DeviceController extends Controller
         'client_id' => 'required|exists:clients,id', // Validamos que el cliente exista
     ]);
 
+    //metadata fijo de ejemplo
+    $validated['metadata'] = [
+        'firmware' => 'v1.0.12',
+        'last_ping' => now()->toDateTimeString(),
+        'connection_mode' => 'TCP/IP',
+        'system_check' => 'passed'
+    ];
+
     // Guardamos usando la relación con el cliente o directamente
-    Device::create($validated);
+    $device = Device::create($validated);
+
+    // REGISTRO EN BITÁCORA (logs)
+    \App\Models\Log::create([
+        'user_id'     => auth()->id(), 
+        'action'      => 'Creación de Dispositivo',
+        'description' => "Se creó el equipo: {$device->name} con ID: {$device->id} con IP: {$request->ip()}",
+        'module'      => 'Dispositivos'
+    ]);
 
     return redirect()->route('devices.index')->with('success', 'Equipo registrado.');
 }
@@ -79,8 +95,21 @@ class DeviceController extends Controller
             'status' => 'required|in:activo,inactivo,alerta',
         ]);
 
-        $device->update($validated);
+        //actualizar metadata sin perder la info previa, solo de ejemplo
+        $validated['metadata'] = array_merge($device->metadata ?? [], [
+        'updated_by_system' => true,
+        'last_audit' => now()->toDateString()
+        ]);
 
+         $device->update($validated);
+
+         // REGISTRO EN BITÁCORA (logs)
+    \App\Models\Log::create([
+        'user_id'     => auth()->id(), 
+        'action'      => 'Actualización de Dispositivo',
+        'description' => "Se actualizó el equipo: {$device->name} con ID: {$device->id} con IP: {$request->ip()}",
+        'module'      => 'Dispositivos'
+    ]);
         return redirect()->route('devices.index')->with('success', 'Equipo actualizado.');
     }
 

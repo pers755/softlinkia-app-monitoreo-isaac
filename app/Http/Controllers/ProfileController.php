@@ -34,6 +34,14 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
+        // REGISTRO EN BITÁCORA (logs)
+    \App\Models\Log::create([
+        'user_id'     => auth()->id(), 
+        'action'      => 'Actualización de Perfil',
+        'description' => "Se actualizó el perfil del usuario: {$request->user()->name} con ID: {$request->user()->id} con IP: {$request->ip()}",
+        'module'      => 'Perfiles'
+    
+    ]);
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
@@ -55,6 +63,14 @@ class ProfileController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
+          // REGISTRO EN BITÁCORA (logs)
+    \App\Models\Log::create([
+        'user_id'     => auth()->id(), 
+        'action'      => 'Eliminación de Perfil',
+        'description' => "Se eliminó el perfil del usuario: {$request->user()->name} con ID: {$request->user()->id} con IP: {$request->ip()}",
+        'module'      => 'Perfiles'
+    
+    ]);
         return Redirect::to('/');
     }
 }

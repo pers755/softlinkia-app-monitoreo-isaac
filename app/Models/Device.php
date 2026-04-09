@@ -18,6 +18,10 @@ class Device extends Model
         'metadata'
     ];
 
+    protected $casts = [
+    'metadata' => 'array',
+];
+
     // Relación: Un dispositivo pertenece a un Usuario (Cliente)
     public function user()
     {

@@ -41,10 +41,21 @@ class EventController extends Controller
             $incidentCreated = true;
         }
         */
+          // REGISTRO EN BITÁCORA (logs)
+    \App\Models\Log::create([
+        'user_id'     => 3, 
+        'action'      => 'API-Simulación de Evento',
+        'description' => "Se simuló un evento del tipo: {$request->type} para el dispositivo con ID: {$request->device_id} con IP: {$request->ip()}",
+        'module'      => 'Eventos'
+    
+    ]);
+
         return response()->json([
             'message' => 'Evento procesado',
             'event' => $event,
             'incident_generated' => $incidentCreated
         ], 201);
+
+        
     }
 }
