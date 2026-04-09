@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Device extends Model
 {
-    use SoftDeletes; // requerimiento pag 6
+    use SoftDeletes; // req pag 6
 
     protected $fillable = [
         'name', 

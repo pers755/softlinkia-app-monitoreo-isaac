@@ -68,7 +68,21 @@
                 </div>
 
             </div>
+            
 
         </div>
-    </div>
+        <div class="p-6 border-b border-gray-200 font-bold">
+             <!-- Sección de Incidentes Recientes -->
+             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-12">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-[#1e293b] p-6 rounded-lg border border-gray-700">
+                        @livewire('incident-dashboard')
+                    </div>
+                </div>
+            </div>    
+            </div>    
+
+        </div>  
+    </div>  
+   
 </x-app-layout>

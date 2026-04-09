@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DeviceController;
+use App\Http\Controllers\ClientController;
 
 
 Route::get('/', function () {
@@ -21,6 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
    Route::resource('devices', DeviceController::class);
+   Route::resource('clients', ClientController::class);
 
    Route::post('/simulate-event', function (Illuminate\Http\Request $request) {
     Event::create([
@@ -31,6 +33,7 @@ Route::middleware('auth')->group(function () {
 
     return back()->with('success', 'Evento procesado: Incidencia generada automáticamente.');
 })->name('simulate.event');
+
 
 });
 

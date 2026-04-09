@@ -12,7 +12,7 @@ class ClientSeeder extends Seeder
 {
     public function run(): void
     {
-        //ADMINIS
+        //ADMINS
 
         // Admin Softlinkia
         $adminSoft = User::create([
@@ -30,7 +30,7 @@ class ClientSeeder extends Seeder
             'role' => 'admin',
         ]);
 
-        // CLIOENTE VINCULADO A SOFTLINKIA
+        // CLIENTE VINCULADO A SOFTLINKIA
         //  para que Softlinkia aparezca tambien como "dueño" de equipos
         $clientDemo = Client::create([
             'user_id' => $adminSoft->id,
@@ -41,7 +41,7 @@ class ClientSeeder extends Seeder
             'rfc' => 'SLK260407123',
         ]);
 
-        // --- 3. DISPOSITIVOS DE PRUEBA ---
+        // DISPOSITIVOS DE PRUEBA ---
         Device::create([
             'client_id' => $clientDemo->id,
             'name' => 'Cámara Exterior Acceso',
@@ -58,7 +58,7 @@ class ClientSeeder extends Seeder
             'status' => 'falla'
         ]);
 
-        // --- 4. 20 CLIENTES FAKES (CON SUS PROPIOS USUARIOS ROL 'CLIENT') ---
+        //  20 CLIENTES FAKES (CON SUS PROPIOS USUARIOS ROL 'CLIENT') 
         Client::factory(20)->create();
         
         $this->command->info('Se han creado 2 Admins, 1 Cliente Demo y 20 Clientes aleatorios.');

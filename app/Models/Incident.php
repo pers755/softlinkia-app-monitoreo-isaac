@@ -6,10 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Incident extends Model
 {
+    protected $fillable = [
+    'device_id', 
+    'type', 
+    'status', 
+    'description'
+];
     //tabla detalles
     public function details()
     {
         return $this->hasMany(IncidentDetail::class);
+        
     }
 
     //relaciones

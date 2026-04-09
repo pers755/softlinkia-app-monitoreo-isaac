@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Device;
 use Illuminate\Http\Request;
+use App\Models\Client;
 
 class DeviceController extends Controller
 {
@@ -48,7 +49,9 @@ class DeviceController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $device = Device::with('client')->findOrFail($id);
+
+         return view('devices.show', compact('device'));
     }
 
     /**
@@ -56,7 +59,9 @@ class DeviceController extends Controller
      */
     public function edit(string $id)
     {
-        //
+     $device = Device::findOrFail($id); // Buscamos el equipo o lanzamos 404
+        $clients = Client::all();
+        return view('devices.edit', compact('device', 'clients'));
     }
 
     /**
@@ -64,7 +69,19 @@ class DeviceController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $device = Device::findOrFail($id);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'type' => 'required|string',
+            'location' => 'required|string',
+            'client_id' => 'required|exists:clients,id',
+            'status' => 'required|in:activo,inactivo,alerta',
+        ]);
+
+        $device->update($validated);
+
+        return redirect()->route('devices.index')->with('success', 'Equipo actualizado.');
     }
 
     /**
@@ -72,6 +89,12 @@ class DeviceController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $device = Device::findOrFail($id);
+
+        // softdelete
+        $device->delete();
+
+        return redirect()->route('devices.index')
+            ->with('success', 'El dispositivo ha sido desactivado correctamente.');
     }
 }

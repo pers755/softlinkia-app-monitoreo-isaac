@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Livewire\IncidentDashboard;
 
+use Livewire\Livewire; // <--- TE FALTA ESTA LÍNEA
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -19,6 +21,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Livewire::component('incident-dashboard', IncidentDashboard::class);
     }
 }
