@@ -16,10 +16,18 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                       <x-nav-link :href="route('devices.index')" :active="request()->routeIs('devices.index')">
-                        {{ __('Devices') }}
+                        {{ __('Dispositivos') }}
                     </x-nav-link>
                       <x-nav-link :href="route('clients.index')" :active="request()->routeIs('clients.index')">
-                        {{ __('Clients') }}
+                        {{ __('Clientes') }}
+                    </x-nav-link>
+                    
+                     <x-nav-link :href="route('events.index')" :active="request()->routeIs('incidents.index')">
+                        {{ __('Eventos e Incidencias') }}
+                    </x-nav-link>
+
+                     <x-nav-link :href="route('logs.index')" :active="request()->routeIs('logs.index')">
+                        {{ __('Logs') }}
                     </x-nav-link>
                 </div>
             </div>

@@ -23,7 +23,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
    Route::resource('devices', DeviceController::class);
    Route::resource('clients', ClientController::class);
-
+    Route::get('/logs', [LogController::class, 'index'])->name('logs.index');
+    Route::get('/events', [EventController::class, 'index'])->name('events.index');
    Route::post('/simulate-event', function (Illuminate\Http\Request $request) {
     Event::create([
         'device_id' => $request->device_id,
