@@ -17,4 +17,9 @@ class Client extends Model
     {
         return $this->hasMany(Device::class);
     }
+
+    public function incidents()
+    {
+        return $this->hasManyThrough(Incident::class, Device::class);
+    }
 }

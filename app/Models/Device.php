@@ -20,12 +20,23 @@ class Device extends Model
 
     protected $casts = [
     'metadata' => 'array',
-];
+    ];
 
     // Relación: Un dispositivo pertenece a un Usuario (Cliente)
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+    public function client()
+        {
+            // Un dispositivo pertenece a un cliente
+            return $this->belongsTo(Client::class);
+        }
+
+        public function incidents()
+        {
+            // Un dispositivo tiene muchas incidencias
+            return $this->hasMany(Incident::class);
+        }
 }
 

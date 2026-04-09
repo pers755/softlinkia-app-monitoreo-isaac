@@ -22,8 +22,15 @@ class DeviceController extends Controller
      */
     public function create()
     {
-    $clients = \App\Models\Client::all(); //listado de clientes
-      return view('devices.create', compact('clients'));
+        $user = auth()->user();
+        
+        // Si el usuario tiene un client_id o una relación client, 
+        // asumimos que es un usuario tipo cliente.
+        if ($user->client) {
+            $clients = collect([$user->client]); // Solo mandamos su propio cliente
+        } else {
+            $clients = \App\Models\Client::all(); // Admin ve todos
+        }      return view('devices.create', compact('clients'));
     }
 
     /**
@@ -63,12 +70,22 @@ class DeviceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        $device = Device::with('client')->findOrFail($id);
+   public function show(string $id)
+{
+    // Cargamos 'client' para saber de quién es y 'incidents' para el historial
+    $device = Device::with(['client', 'incidents'])->findOrFail($id);
 
-         return view('devices.show', compact('device'));
+    // Si el usuario logueado tiene un client_id asignado...
+    if (auth()->user()->client_id) {
+        // ...y ese ID no coincide con el dueño del dispositivo, bloqueamos
+        if ($device->client_id !== auth()->user()->client_id) {
+            abort(403, 'No tienes permiso para ver este equipo.');
+        }
     }
+
+    // 3. Pasamos todo a la vista
+    return view('devices.show', compact('device'));
+}
 
     /**
      * Show the form for editing the specified resource.

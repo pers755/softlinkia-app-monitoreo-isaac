@@ -32,6 +32,22 @@ Route::middleware('auth')->group(function () {
         'timestamp' => now(),
     ]);
 
+    // rutas roles
+    // Solo el Admin puede ver la Bitácora (Logs)
+        Route::get('/logs', [LogController::class, 'index'])
+            ->middleware('can:admin-only');
+
+        // El CRUD de Clientes es solo para el Admin
+        Route::resource('clients', ClientController::class)
+            ->middleware('can:admin-only');
+
+        // Dispositivos y Eventos: Accesible para Admin y Operador
+       Route::get('/devices/{device}', [DeviceController::class, 'show'])->name('devices.show')
+            ->middleware('can:staff-access');
+
+        Route::get('/events', [EventController::class, 'index'])
+            ->middleware('can:staff-access');
+
     return back()->with('success', 'Evento procesado: Incidencia generada automáticamente.');
 })->name('simulate.event');
 

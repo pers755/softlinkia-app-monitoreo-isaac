@@ -29,10 +29,24 @@ class ClientSeeder extends Seeder
             'password' => Hash::make('password123'),
             'role' => 'admin',
         ]);
+        // Operador de Turno
+        \App\Models\User::factory()->create([
+        'name' => 'Operador de Turno',
+        'email' => 'operador@test.com',
+        'role' => 'operador',
+        'password' => bcrypt('password123'),
+    ]);
 
-        // CLIENTE VINCULADO A SOFTLINKIA
+      // user demo
+      $userdemo =  \App\Models\User::factory()->create([
+        'name' => 'Cliente Demo',
+        'email' => 'demo@test.com',
+        'role' => 'cliente',
+        'password' => bcrypt('password123'),
+    ]);
+        // CLIENTE VINCULADO A ADMIN SOFTLINKIA
         //  para que Softlinkia aparezca tambien como "dueño" de equipos
-        $clientDemo = Client::create([
+        $clienteAdmin = Client::create([
             'user_id' => $adminSoft->id,
             'name' => 'Softlinkia Corp',
             'email' => 'softlinkia@softlinkia.com',
@@ -41,9 +55,20 @@ class ClientSeeder extends Seeder
             'rfc' => 'SLK260407123',
         ]);
 
+          // CLIENTE VINCULADO A CLIENTE DEMO 
+        //  para que Softlinkia aparezca tambien como "dueño" de equipos
+        $clientDemo = Client::create([
+            'user_id' => $userdemo->id,
+            'name' => 'cliente demo test',
+            'email' => 'demo@test.com',
+            'phone' => '6621000000',
+            'address' => 'Blvd. Colosio 1234, Puerto Peñasco',
+            'rfc' => 'SLK260407122',
+        ]);
+
         // DISPOSITIVOS DE PRUEBA ---
         Device::create([
-            'client_id' => $clientDemo->id,
+            'client_id' => $clienteAdmin->id,
             'name' => 'Cámara Exterior Acceso',
             'type' => 'Cámara IP',
             'location' => 'Entrada Principal',
@@ -51,7 +76,7 @@ class ClientSeeder extends Seeder
         ]);
 
         Device::create([
-            'client_id' => $clientDemo->id,
+            'client_id' => $clienteAdmin->id,
             'name' => 'Sensor Movimiento Almacén',
             'type' => 'Sensor PIR',
             'location' => 'Bodega A',

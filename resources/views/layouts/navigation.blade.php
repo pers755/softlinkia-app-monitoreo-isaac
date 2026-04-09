@@ -6,29 +6,37 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        <x-application-logo class="block h-9 w-auto fill-current text-white" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                      <x-nav-link :href="route('devices.index')" :active="request()->routeIs('devices.index')">
-                        {{ __('Dispositivos') }}
-                    </x-nav-link>
-                      <x-nav-link :href="route('clients.index')" :active="request()->routeIs('clients.index')">
-                        {{ __('Clientes') }}
-                    </x-nav-link>
-                    
-                     <x-nav-link :href="route('events.index')" :active="request()->routeIs('incidents.index')">
-                        {{ __('Eventos e Incidencias') }}
-                    </x-nav-link>
 
-                     <x-nav-link :href="route('logs.index')" :active="request()->routeIs('logs.index')">
-                        {{ __('Logs') }}
-                    </x-nav-link>
+                    @can('staff-access')
+                        <x-nav-link :href="route('devices.index')" :active="request()->routeIs('devices.index')">
+                            {{ __('Dispositivos') }}
+                        </x-nav-link>
+                    @endcan
+                
+                    @can('staff-access')
+                        <x-nav-link :href="route('events.index')" :active="request()->routeIs('events.index')">
+                            {{ __('Eventos e Incidencias') }}
+                        </x-nav-link>
+                    @endcan
+
+                    @can('admin-only')
+                        <x-nav-link :href="route('clients.index')" :active="request()->routeIs('clients.index')">
+                            {{ __('Clientes') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('logs.index')" :active="request()->routeIs('logs.index')">
+                            {{ __('Logs') }}
+                        </x-nav-link>
+    @endcan
                 </div>
             </div>
 
