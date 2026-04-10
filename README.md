@@ -1,58 +1,71 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Softlinkia - Sistema de Monitoreo de Dispositivos
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistema integral para la supervisión técnica y gestión de incidencias en tiempo real de infraestructura de red y dispositivos .
 
-## About Laravel
+##  Acceso al Sistema
+El sistema se encuentra desplegado y funcional en la siguiente URL:
+**[http://srv1568602.hstgr.cloud](http://srv1568602.hstgr.cloud)**
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+##  Credenciales de Acceso
+Para facilitar la evaluación, se han precargado los siguientes perfiles de prueba:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+| Rol | Correo Electrónico | Contraseña |
+| :--- | :--- | :--- |
+| **Administrador** | `admin@softlinkia.com` | `password123` |
+| **Operador** | `operador@softlinkia.com` | `password123` |
+| **Cliente Demo** | `demo@test.com` | `password123` |
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+##  Stack Tecnológico
+* **Backend:** Laravel 11 (PHP 8.2+)
+* **Frontend:** Tailwind CSS & Blade Components
+* **Base de Datos:** MySQL
+* **Herramientas:** Vite, Composer, NPM
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+##  Supuestos
 
-## Agentic Development
+Al desarrollar la prueba, se asumieron las siguientes premisas:
+1.  **Unicidad de Roles:** Un usuario solo puede tener un rol asignado a la vez para simplificar la lógica de permisos en esta versión.
+2.  **Persistencia de Fallas:** Se asume que una "Falla" simulada requiere una intervención manual posterior, por lo que el estado se mantiene en la base de datos hasta que un Admin/Operador lo resuelva.
+3.  **Ambiente de Producción:** Se asumió que el evaluador requiere una URL funcional, por lo que se realizó el despliegue en un servidor KVM real.
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Instalación Local
+Si desea ejecutar el proyecto localmente, siga estos pasos:
 
-```bash
-composer require laravel/boost --dev
+1.  **Clonar:** `git clone <url-del-repositorio>`
+2.  **Dependencias PHP:** `composer install`
+3.  **Dependencias JS:** `npm install`
+4.  **Compilar Assets:** `npm run build` (Necesario para visualizar los estilos correctamente)
+5.  **Entorno:** Configurar archivo `.env` con sus credenciales de base de datos.
+6.  **Migrar y Seed:** `php artisan migrate --seed` (Crea las tablas y los usuarios de prueba)
+7.  **Servidor:** `php artisan serve`
+---
 
-php artisan boost:install
-```
+## 📋 Documentación de la API
+El sistema expone los siguientes endpoints para integración externa:
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### Dispositivos
+* `POST /api/v1/device-event`: Crea una incidencia que se muestra en dashboard en tiempo real.
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+##  Características Implementadas
 
-## Code of Conduct
+### **Gestión y Seguridad**
+* **Gestión de Roles (RBAC):** Restricción de acceso mediante un Middleware personalizado que valida permisos para Administradores, Operadores y Clientes.
+* **Inicio de Sesión:** Módulo de autenticación seguro para el control de acceso a la infraestructura.
+* **Gestión Integral (CRUD):** Administración completa Dispositivos.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### **Monitoreo y Operatividad**
+* **Dashboard en Tiempo Real:** Panel de control visual con indicadores de salud de sistema.
+* **Simulación de Fallas:** Botón operativo para forzar estados de error, permitiendo validar la respuesta del sistema de alertas y bitácoras.
+* **Expediente de Dispositivo:** Vista de detalle que centraliza la información del cliente, el estado del sistema y el historial de incidencias.
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### **Auditoría y Trazabilidad**
+* **Bitácora de Auditoría (Audit Log):** Registro automático de acciones críticas: inicios de sesión, cambios de estado en equipos y creación de registros.
+* **Listado de Incidencias:** Reporte histórico de anomalías detectadas para el análisis de mantenimiento preventivo.
