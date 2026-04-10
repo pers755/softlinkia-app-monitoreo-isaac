@@ -86,17 +86,15 @@
 </td>
                                     
                                     <td class="p-3 whitespace-nowrap text-center">
-                                        <form action="{{ route('simulate.event') }}" method="POST" onsubmit="return confirm('¿Simular pérdida de conexión?')">
-                                            @csrf
-                                            <input type="hidden" name="device_id" value="{{ $device->id }}">
-                                            <input type="hidden" name="type" value="desconexion">
-                                            <button type="submit" class="inline-flex items-center px-3 py-1 bg-orange-500 hover:bg-orange-600 text-black text-xs font-bold rounded shadow-sm transition">
-                                                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                                </svg>
-                                                FALLA
-                                            </button>
-                                        </form>
+                                       <form action="{{ route('devices.simulate-fail', $device->id) }}" method="POST">
+    @csrf
+    <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white text-[10px] font-bold py-1 px-3 rounded shadow-sm transition flex items-center uppercase">
+        <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>
+        </svg>
+        Falla
+    </button>
+</form>
                                     </td>
                                 </tr>
                             @empty

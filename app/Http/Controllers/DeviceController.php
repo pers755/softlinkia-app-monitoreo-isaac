@@ -119,6 +119,7 @@ class DeviceController extends Controller
         ]);
 
          $device->update($validated);
+         $device->notifyStatusChange();
 
          // REGISTRO EN BITÁCORA (logs)
     \App\Models\Log::create([
@@ -130,6 +131,18 @@ class DeviceController extends Controller
         return redirect()->route('devices.index')->with('success', 'Equipo actualizado.');
     }
 
+    public function simulateFail(Device $device)
+    {
+    // 1. Cambiamos el estado a falla
+    $device->status = 'falla';
+    $device->save();
+
+    // 2. Disparamos la notificación (el método que pusimos en el Modelo Device)
+    $device->notifyStatusChange();
+
+    // 3. Regresamos con un mensaje de éxito
+    return back()->with('success', "Simulación de falla enviada para {$device->name}");
+    }
     /**
      * Remove the specified resource from storage.
      */
