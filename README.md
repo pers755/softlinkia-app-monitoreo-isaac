@@ -5,7 +5,9 @@ Sistema integral para la supervisión técnica y gestión de incidencias en tiem
 ##  Acceso al Sistema
 El sistema se encuentra desplegado y funcional en la siguiente URL:
 **[http://srv1568602.hstgr.cloud](http://srv1568602.hstgr.cloud)**
+si hay problemas se puede entrar por ip
 
+http://31.97.7.55/
 ---
 
 ##  Credenciales de Acceso
