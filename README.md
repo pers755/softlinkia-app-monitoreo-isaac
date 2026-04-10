@@ -52,6 +52,20 @@ El sistema expone los siguientes endpoints para integración externa:
 ### Dispositivos
 * `POST /api/v1/device-event`: Crea una incidencia que se muestra en dashboard en tiempo real.
 
+Url: http://srv1568602.hstgr.cloud/api/v1/device-event
+
+### Configuración de Headers
+Para todas las peticiones POST, asegúrese de incluir los siguientes encabezados:
+- `Content-Type: application/json`
+- `Accept: application/json`
+
+### Ejemplo de Body para POST /api/v1/device-event
+**Tipo de datos:** JSON (Raw)
+**Cuerpo:**
+{
+    "device_id": 1,
+    "type": "desconexion"
+}
 ---
 
 ##  Características Implementadas
