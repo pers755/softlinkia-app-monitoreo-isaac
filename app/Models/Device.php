@@ -16,6 +16,7 @@ class Device extends Model
         'status', 
         'location', 
         'user_id', 
+        'client_id',
         'metadata'
     ];
 

@@ -57,4 +57,17 @@ class User extends Authenticatable
     {
         return $this->role === 'admin';
     }
+
+    public function role()
+{
+    // Asumiendo que tienes una columna 'role' en tu tabla 'users'
+    // Si tu columna se llama 'type' o 'profile', cambia 'role' por ese nombre
+    return $this->role; 
+}
+
+public function hasRole($role)
+{
+    // Compara el rol del usuario con el que le pides (ej. 'admin', 'cliente')
+    return $this->role === $role;
+}
 }

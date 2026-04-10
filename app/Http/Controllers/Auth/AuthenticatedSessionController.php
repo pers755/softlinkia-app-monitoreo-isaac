@@ -28,6 +28,17 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        
+
+        
+    // REGISTRO EN BITÁCORA (logs)
+    \App\Models\Log::create([
+        'user_id'     => auth()->id(), 
+        'action'      => 'login',
+        'description' => 'Inicio de sesión exitoso desde la IP: ' . $request->ip(),
+        'module'      => 'login'
+    ]);
+
         return redirect()->intended(route('dashboard', absolute: false));
     }
 

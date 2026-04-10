@@ -11,11 +11,32 @@ class DeviceController extends Controller
     /**
      * Display a listing of the resource.
      */
-   public function index()
-    {
-        $devices = Device::paginate(10); 
-        return view('devices.index', compact('devices'));
+  public function index(Request $request)
+{
+    // Usamos 'with' para traer los datos del cliente sin hacer múltiples consultas (Eager Loading)
+    $query = Device::with('client');
+
+    // Filtro por Búsqueda (Nombre del dispositivo o nombre del cliente)
+    if ($request->has('search') && $request->search != '') {
+        $search = $request->search;
+        $query->where(function($q) use ($search) {
+            $q->where('name', 'like', "%{$search}%")
+              ->orWhereHas('client', function($cq) use ($search) {
+                  $cq->where('name', 'like', "%{$search}%");
+              });
+        });
     }
+
+    // Filtro por Estado
+    if ($request->has('status') && $request->status != '') {
+        $query->where('status', $request->status);
+    }
+
+    // Ordenamos por más recientes y paginamos
+    $devices = $query->latest()->paginate(20);
+
+    return view('devices.index', compact('devices'));
+}
 
     /**
      * Show the form for creating a new resource.
@@ -38,6 +59,7 @@ class DeviceController extends Controller
      */
   public function store(Request $request)
 {
+    var_dump($request->all()); // Para depurar los datos que llegan del formulario
   $validated = $request->validate([
         'name' => 'required|string|max:255',
         'type' => 'required|string',

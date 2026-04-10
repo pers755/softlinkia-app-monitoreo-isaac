@@ -14,7 +14,7 @@
         <div>
             <x-input-label for="email" :value="__('Email')" class="text-cyan-500 text-xs font-bold uppercase mb-1" />
             <x-text-input id="email" 
-                class="block mt-1 w-full bg-slate-800 border-slate-700 text-white placeholder-slate-500 focus:bg-[#0f172a] focus:border-cyan-500 focus:ring-cyan-500 transition-colors" 
+                class="block mt-1 w-full bg-slate-800 border-slate-700 text-black placeholder-slate-500 focus:bg-[#0f172a] focus:border-cyan-500 focus:ring-cyan-500 transition-colors" 
                 type="email" name="email" :value="old('email')" required autofocus autocomplete="username" 
                 placeholder="correo@ejemplo.com" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
@@ -24,7 +24,7 @@
             <x-input-label for="password" :value="__('Password')" class="text-cyan-500 text-xs font-bold uppercase mb-1" />
 
             <x-text-input id="password" 
-                class="block mt-1 w-full bg-slate-800 border-slate-700 text-white placeholder-slate-500 focus:bg-[#0f172a] focus:border-cyan-500 focus:ring-cyan-500 transition-colors"
+                class="block mt-1 w-full bg-slate-800 border-slate-700 text-black placeholder-slate-500 focus:bg-[#0f172a] focus:border-cyan-500 focus:ring-cyan-500 transition-colors"
                 type="password"
                 name="password"
                 required autocomplete="current-password"
