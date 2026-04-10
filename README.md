@@ -14,7 +14,7 @@ Para facilitar la evaluación, se han precargado los siguientes perfiles de prue
 | Rol | Correo Electrónico | Contraseña |
 | :--- | :--- | :--- |
 | **Administrador** | `admin@softlinkia.com` | `password123` |
-| **Operador** | `operador@softlinkia.com` | `password123` |
+| **Operador** | `operador@test.com` | `password123` |
 | **Cliente Demo** | `demo@test.com` | `password123` |
 
 ---
