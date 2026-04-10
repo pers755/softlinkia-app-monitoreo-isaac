@@ -23,7 +23,7 @@
                             <option value="falla" {{ request('status') == 'falla' ? 'selected' : '' }}>FALLA</option>
                         </select>
 
-                        <button type="submit" class="bg-slate-800 text-blue px-4 py-2 rounded-lg hover:bg-slate-900 transition text-sm font-bold">
+                        <button type="submit" class="bg-slate-800 text-white px-4 py-2 rounded-lg hover:bg-slate-900 transition text-sm font-bold">
                             FILTRAR
                         </button>
                         
